@@ -2,10 +2,37 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta name="viewport" content="width= , initial-scale=1.0">
+    <title>accueil</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
-    
+    <header class="bg-orange-200 flex justify-around p-10 py-12">
+        <h1 href="index.html" class="text-3xl font-serif">•ArcheoOpenBase•</h1>
+        <img src=""/>
+        <form action = "/search" method = "get" class = "">
+            <input type = "text" name = "q" placeholder = "recherche" class="">
+            <button type = "submit" class = "">🔍</button>
+        </form>
+        <nav class="flex space-x-10 text-2xl font-serif ">
+            <ul>
+                <li><a href="/">Accueil</a></li>
+                <li><a href="/connect" class="active">login</a></li>
+                <li><a href="/register" class="active">register</a></li>
+                <li><a href="/publish" class="active">publish</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="bg-orange-100 pt-10">
+
+    {% block content %}
+    {% endblock %}
+
+    </main>
+    <footer class="bg-orange-200">
+        <p>La_programmeuse</p>
+        <p>mon adresse mail : la.programmeuse@gmail.com</p>
+    </footer>
 </body>
 </html>

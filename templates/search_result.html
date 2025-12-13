@@ -4,18 +4,20 @@
 
         <div class="text-center">
             <h2>Hey !</h2>
-            <p> quelque chose que j'ecrirais plus tard</p>
+            <p> voici les resultats pour {{query}} </p>
             <br>
         </div>
         <section class="grid grid-cols-4 grid-rows-3 flex gap-4">
             {% for test in test %}
                 <article class="bg-blue-200">
                     <h2 class="text-lg text-center pb-1" >Annonce 1</h2>
-                    <p> {{annonce["titre_annonces"]}}</p>
-                    <p>{{annonce["phrase_annonces"]}}</p>
+                    <p> {{annonce["titreannonce"]}}</p>
+                    <p> {{annonce["phraseannonce"]}}</p>
                 </article>
             {% endfor %}
-
+            
+            {% if annonces|length == 0 %}
+                <p> Sorry je ne trouve pas d'article correspondant à vos besoin D: desoléééé </p>
         </section>
     </main>
 {% endblock %}

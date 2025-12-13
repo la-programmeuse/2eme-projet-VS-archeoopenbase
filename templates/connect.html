@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+{% if erreur %}
+<p> Erreur : {{erreur}}</p>
+{% endif %}
+<div class="flex justify-center space-y-6 bg-orange-200">
+    <form method="POST" action = "">
+        <div class="text-center">
+            <label>Utilisateur</label>
+            <input name ="utilisateur" type="text" placeholder="nom de l'utilisateur">
+        </div>
+        <br>
+        <div class="text-center">
+            <label>mots de passe</label>
+            <input name ="mots_de_passe" type="text" placeholder="entrer votre MDP">
+        </div>
+        <br>
+        <div class="flex justify-center" >
+            <button type = "submit">se connecter</button>
+        </div>
+    </form>
+</div>
+<br> 
+{% endblock %}
