@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<article class="bg-stone-50 text-center rounded-lg border border-orange-200 shadow-md">
+    <h2 class="text-lg text-center pb-1" >Annonce</h2>
+    <p> {{post["titre_annonces"]}}</p>
+    <p>{{post["phrase_annonces"]}}</p>
+</article>
+
+<br>
+
+{% endblock %}

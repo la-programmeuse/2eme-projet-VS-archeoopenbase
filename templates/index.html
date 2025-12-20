@@ -2,19 +2,21 @@
 
 {% block content %}
 
-        <div class="bg-orange-200 text-center">
+        <div class="bg-orange-200 text-center rounded-lg border border-orange-200 shadow-md">
             <h2> Bonjour </h2>
             <p>CE SITE S'ADRESSE AUX PROFESSIONNELS DE L'ARCHÉOLOGIE.
                 LES INFORMATIONS RECUEILLIES ICI PEUVENT S'AVÉRER
                 PRÉCIEUSES POUR LA VALORISATION. LES ARTICLES PUBLIÉS SONT RÉDIGÉS PAR DES ARCHÉOLOGUES ET PEUVENT INCLURE DES PHOTOGRAPHIES ET DES RAPPORTS DE FOUILLES</p>
             <br>
         </div>
+        <br>
         <section class="grid grid-cols-4 grid-rows-3 flex gap-4">
             {% for test in test %}
-                <article class="bg-blue-200">
-                    <h2 class="text-lg text-center pb-1" >Annonce 1</h2>
-                    <p> {{annonce["titre_annonces"]}}</p>
-                    <p>{{annonce["phrase_annonces"]}}</p>
+                <article class="bg-stone-50 text-center rounded-lg border border-orange-200 shadow-md">
+                    <h2 class="text-lg text-center pb-1" >Annonce</h2>
+                    <p> {{test["titre_annonces"]}}</p>
+                    <p>{{test["phrase_annonces"]}}</p>
+                    <a href="/index/{{ test['_id'] }}">afficher plus</a>
                 </article>
             {% endfor %}
 

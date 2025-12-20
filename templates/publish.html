@@ -4,7 +4,8 @@
 {{erreur}}
 {%endif%}
 
-<form method="POST" action = "{{url_for('publish')}}">
+<div class="bg-orange-200 ">
+    <form method="POST" action = "{{url_for('publish')}}">
         <div>
             <label>Titre de l'annonce</label>
             <input name="titre_annonces" type = "text" placeholder="">
@@ -17,4 +18,5 @@
             <button type="submit">Publier</button>
         </div>
     </form>
+</div>
 {%endblock%}

@@ -3,6 +3,7 @@ import pymongo
 import os
 from dotenv import load_dotenv
 import bcrypt 
+from bson.objectid import ObjectId
 
 load_dotenv()
 app = Flask(__name__)
@@ -18,7 +19,7 @@ app.secret_key = "2jWIe266TsEycWi6"
 @app.route('/')
 def index():
     annonce_data= list(db["annonces"].find({}))
-    return render_template('index.html', annonce = annonce_data)
+    return render_template('index.html', test = annonce_data)
 
 @app.route("/search", methods = ['GET'])
 def search():
@@ -29,10 +30,15 @@ def search():
     else :
         results =   list(db["annonce"].find({
             "$or" : [
-                {"titreannonce" : {"$regex" : query, "$options" : "i"} },
-                {"phraseannonce" : {"$regex" : query, "$options" : "i"} }
+                {"titre_annonces" : {"$regex" : query, "$options" : "i"} },
+                {"phrase_annonces" : {"$regex" : query, "$options" : "i"} }
             ]
         }))
+
+@app.route("/index/<id_post>")
+def lieu(id_post):
+    post  = db["annonces"].find_one({"_id": ObjectId(id_post)})
+    return render_template("/post.html", post=post)
 
 @app.route('/connect', methods=['POST', 'GET'])
 def connect():
