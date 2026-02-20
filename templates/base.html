@@ -10,7 +10,7 @@
           theme: {
             extend: {
               colors: {
-                color1: '#DBA251',
+                color1: '#D19D62',
                 color2: '#E3B678'
               }
             }
@@ -30,12 +30,13 @@
 
 <body>
     <header class="bg-color1 flex justify-around p-10 py-12">
-        <img class="w-64 h-auto" src="../static/LOGO_ARCHAEO.PNG"/>
-        <li><a href="/index" class="text-3xl font-serif text-orange-950">•ArchaeoOpenBase•</a></li>
-        <form action = "/search" method = "get" class = "">
-            <input type = "text" name = "q" placeholder = "recherche" class="">
-            <button type = "submit" class = "">🔍</button>
-        </form>
+        <div class="grid grid-cols-1 flex justify-around">
+            <img src="../static/IMG_4020.PNG" class="w-100"> 
+            <form action = "/search" method = "get" class = "flex justify-center">
+                <input type = "text" name = "q" placeholder = "recherche" class="">
+                <button type = "submit" class = "">🔍</button>
+            </form>
+        </div>
         <nav class="flex space-x-10 text-2xl font-serif text-orange-950">
             <ul>
                 <li><a href="/">Accueil</a></li>
