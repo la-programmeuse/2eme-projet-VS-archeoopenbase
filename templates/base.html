@@ -5,34 +5,65 @@
     <meta name="viewport" content="width= , initial-scale=1.0">
     <title>accueil</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+          theme: {
+            extend: {
+              colors: {
+                color1: '#DBA251',
+                color2: '#E3B678'
+              }
+            }
+          }
+        }
+      </script>
+      <style>
+        /* Hauteur obligatoire sinon la carte ne s’affiche pas */
+        #map {
+            width: 100%;
+            height: 500px;
+        }
+    </style>
 </head>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAxvPdCouaDKnkKMkP1L6vOkKZbPak24b4&callback=initMap" 
+        async defer></script>
+
 <body>
-    <header class="bg-orange-200 flex justify-around p-10 py-12">
-        <h1 href="index.html" class="text-3xl font-serif">•ArcheoOpenBase•</h1>
-        <img src="LOGO_ARCHAEO.PNG"/>
+    <header class="bg-color1 flex justify-around p-10 py-12">
+        <img class="w-64 h-auto" src="../static/LOGO_ARCHAEO.PNG"/>
+        <li><a href="/index" class="text-3xl font-serif text-orange-950">•ArchaeoOpenBase•</a></li>
         <form action = "/search" method = "get" class = "">
             <input type = "text" name = "q" placeholder = "recherche" class="">
             <button type = "submit" class = "">🔍</button>
         </form>
-        <nav class="flex space-x-10 text-2xl font-serif ">
+        <nav class="flex space-x-10 text-2xl font-serif text-orange-950">
             <ul>
                 <li><a href="/">Accueil</a></li>
+            <ul>
                 <li><a href="/connect" class="active">login</a></li>
                 <li><a href="/register" class="active">register</a></li>
+            </ul>
                 <li><a href="/publish" class="active">publish</a></li>
             </ul>
         </nav>
     </header>
 
-    <main class="bg-orange-100  pt-10">
+    <main class="bg-color2  pt-10">
 
     {% block content %}
     {% endblock %}
 
+    {% block scripts %}
+
+{% endblock %}
+
+
     </main>
-    <footer class="bg-orange-200">
+    <footer class="bg-color1 text-orange-950 font-serif">
         <p>La_programmeuse</p>
         <p>mon adresse mail : la.programmeuse@gmail.com</p>
     </footer>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAxvPdCouaDKnkKMkP1L6vOkKZbPak24b4&callback=initMap" 
+        async defer></script>
 </body>
 </html>

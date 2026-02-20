@@ -1,25 +1,63 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
-        <div class="bg-orange-200 text-center rounded-lg border border-orange-200 shadow-md">
-            <h2> Bonjour </h2>
-            <p>CE SITE S'ADRESSE AUX PROFESSIONNELS DE L'ARCHÉOLOGIE.
-                LES INFORMATIONS RECUEILLIES ICI PEUVENT S'AVÉRER
-                PRÉCIEUSES POUR LA VALORISATION. LES ARTICLES PUBLIÉS SONT RÉDIGÉS PAR DES ARCHÉOLOGUES ET PEUVENT INCLURE DES PHOTOGRAPHIES ET DES RAPPORTS DE FOUILLES</p>
+    
+        <div class="bg-color1 text-center rounded-lg shadow-md text-orange-950 font-serif font-semibold">
+            <br>
+            <h2 class="font-semibold"> Bonjour </h2>
+            <br>
+            <p>Ce site s'adresse aux professionnels de l'archeologie.</p>
+            <p>Les informations recueillies ici peuvent s'avérer precieuses pour la valorisation.</p>
+            <p>Les articles publiés sont rediger par des archeologues et peuvent inclure photographies et des rapport de fouille.</p>
             <br>
         </div>
         <br>
         <section class="grid grid-cols-4 grid-rows-3 flex gap-4">
-            {% for test in test %}
+            {% for item in annonce %}
                 <article class="bg-stone-50 text-center rounded-lg border border-orange-200 shadow-md">
-                    <h2 class="text-lg text-center pb-1" >Annonce</h2>
-                    <p> {{test["titre_annonces"]}}</p>
-                    <p>{{test["phrase_annonces"]}}</p>
-                    <a href="/index/{{ test['_id'] }}">afficher plus</a>
+                    <h2 class="text-lg text-center pb-1">Annonce</h2>
+                    <p>{{ item["titre_annonces"] }}</p>
+                    <p>{{ item["phrase_annonces"] }}</p>
+                    <p>Nom image : '{{ annonce.image }}'</p>
+                    {% if annonce.image %}
+                        <img src="{{ url_for('static', filename='uploads/' + annonce.image) }}" width="200">
+                    {% endif %}
+                    <!-- Carte Google Maps -->
+                    <p>{{ annonce.lat }} - {{ annonce.lng }}</p>
+                    {% if item.lat and item.lng %}
+                        <p>Coordonnées : {{ item.lat }} - {{ item.lng }}</p>
+                    {% endif %}
+                    <a class="text-stone-500" href="/index/{{ item['_id'] }}">afficher plus</a>
                 </article>
             {% endfor %}
-
+            <div id="map" class="w-full h-96 my-6 rounded-lg shadow-md" style="width: 100%; height: 500px; margin-top: 20px;"></div>
         </section>
+        
     </main>
+ 
+
+<script>
+    const annonces = {{ annonce | tojson }};
+
+    function initMap() {
+        const centre = { lat: parseFloat(annonces[0].lat), lng: parseFloat(annonces[0].lng) };
+
+        const map = new google.maps.Map(document.getElementById("map"), {
+            zoom: 6,
+            center: centre
+        });
+
+        // Marqueur test
+        annonces.forEach(a => {
+            if(a.lat && a.lng) {
+                new google.maps.Marker({
+                    position: { lat: parseFloat(a.lat), lng: parseFloat(a.lng) },
+                    map: map,
+                    title: a.titre_annonces
+                });
+            }
+        });
+    }
+    </script>
+
 {% endblock %}

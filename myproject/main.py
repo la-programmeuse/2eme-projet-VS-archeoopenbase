@@ -1,7 +1,5 @@
-from flask import Flask, render_template, request, session, redirect, url_for, send_from_directory
+from flask import Flask, render_template, request, session, redirect, url_for
 import pymongo
-from pymongo import MongoClient
-from werkzeug.utils import secure_filename
 import os
 from dotenv import load_dotenv
 import bcrypt 
@@ -10,26 +8,18 @@ from bson.objectid import ObjectId
 load_dotenv()
 app = Flask(__name__)
 
-app.config['UPLOAD_FOLDER'] = os.path.join(os.path.dirname(__file__), 'uploads') 
-
-
-client = MongoClient("mongodb+srv://laprogrammeuse_db_user:2jWIe266TsEycWi6@cluster0.2g3fh0q.mongodb.net/?appName=Cluster0")  # ton URI
-db = client["projet_2_VS_code"] 
-
+client = pymongo.MongoClient(
+    "mongodb+srv://laprogrammeuse_db_user:2jWIe266TsEycWi6@cluster0.2g3fh0q.mongodb.net/?appName=Cluster0",
+    tlsAllowInvalidCertificates=True
+)
+db = client["Archeo_essaie_1"]
 
 app.secret_key = "2jWIe266TsEycWi6"
 
 @app.route('/')
 def index():
     annonce_data= list(db["annonces"].find({}))
-    print("Articles récupérés :", annonce_data)
-    for annonce in annonce_data:
-        annonce["_id"] = str(annonce["_id"])
-        annonce["lat"] = float(annonce.get("lat", 0)) if annonce.get("lat") else None
-        annonce["lng"] = float(annonce.get("lng", 0)) if annonce.get("lng") else None
-        for a in annonce_data:
-            a["_id"] = str(a["_id"])
-    return render_template("index.html", annonce=annonce_data)
+    return render_template('index.html', test = annonce_data)
 
 @app.route("/search", methods = ['GET'])
 def search():
@@ -85,58 +75,26 @@ def register():
     else : 
         return render_template('register.html')
     
-@app.route('/publish', methods = ['POST', 'GET']) 
+@app.route('/publish', methods = ['POST','GET']) 
 def publish():
     if 'user' not in session:
         return render_template('register.html')
 
-    app.config['UPLOAD_FOLDER'] = "static/uploads"
-
     if request.method == "POST":
-        print("request.files keys:", request.files.keys())
         db_annonces = db['annonces']
         titre = request.form["titre_annonces"]
         description = request.form["phrase_annonces"]
-        Latitude = request.form["lat"]
-        Longitude = request.form["lng"]
-        image = request.files.get("image")
-
-
-        filename = ""  # valeur par défaut si pas d'image
-        if image and image.filename != "":
-            from werkzeug.utils import secure_filename
-            import os
-            filename = secure_filename(image.filename)
-            BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-            UPLOAD_FOLDER = os.path.join(BASE_DIR, "static/uploads")
-            os.makedirs(UPLOAD_FOLDER, exist_ok=True)
-            upload_path = os.path.join(UPLOAD_FOLDER, filename)
-            image.save(upload_path)
-            image.save(os.path.join(UPLOAD_FOLDER, filename))
-            print("Fichier enregistré :", filename)
-            print("Dossier uploads contient :", os.listdir(app.config['UPLOAD_FOLDER']))
-            print("Image sauvegardée ici :", upload_path)
-            print("CWD :", os.getcwd())
-            print("Liste uploads :", os.listdir("static/uploads"))
-
-        filename = filename.strip()
 
         if titre and description:
             db_annonces.insert_one({
                 'titre_annonces' : titre,
                 'phrase_annonces' : description,
-                'lat' : Latitude,
-                'lng' : Longitude,
-                'image': filename
             })
-            return redirect("/")
+            return redirect(url_for('index'))
         else: 
             return render_template("publish.html", erreur = 'Veuillez remplir tout les champs obligatoires svp')
     return render_template("publish.html")
 
-@app.route('/uploads/<filename>')
-def uploaded_file(filename):
-    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 @app.route("/test")
 def test():

@@ -3,8 +3,9 @@
 {% if erreur %}
 <p> Erreur : {{erreur}}</p>
 {% endif %}
-<div class="flex justify-center space-y-6 bg-orange-200 ">
+<div class="flex justify-center space-y-6 bg-color1 text-orange-950 font-serif">
     <form method="POST" action = "{{url_for('register')}}">
+        <br>
         <div class="text-center">
             <label>Utilisateur</label>
             <input name ="utilisateur" type="text" placeholder="nom de l'utilisateur">
@@ -23,6 +24,7 @@
         <div class="flex justify-center" >
             <button type = "submit">s'inscrire</button>
         </div>
+        <br>
     </form>
 </div>
 <br> 
