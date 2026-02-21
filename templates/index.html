@@ -15,9 +15,8 @@
                     <h2 class="text-lg text-center pb-1">Annonce</h2>
                     <p>{{ item["titre_annonces"] }}</p>
                     <p>{{ item["phrase_annonces"] }}</p>
-                    <p>Nom image : '{{ annonce.image }}'</p>
-                    {% if annonce.image %}
-                        <img src="{{ url_for('static', filename='uploads/' + annonce.image) }}" width="200">
+                    {% if item.image %}
+                        <img src="{{ url_for('static', filename='uploads/' + item.image) }}" width="200">
                     {% endif %}
                     <!-- Carte Google Maps -->
                     <p>{{ annonce.lat }} - {{ annonce.lng }}</p>

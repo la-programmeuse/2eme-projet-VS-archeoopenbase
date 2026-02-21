@@ -3,13 +3,12 @@
 {% block content %}
 
         <div class="text-center">
-            <h2>Hey !</h2>
             <p> voici les resultats pour {{query}} </p>
             <br>
         </div>
         <section class="grid grid-cols-4 grid-rows-3 flex gap-4">
             {% for annonce in annonces %}
-                <article class="bg-orange-200 ">
+                <article class="bg-stone-50 ">
                     <h3 class="text-lg text-center">{{ annonce['titre_annonces'] }}</h3>
                     <p class="text-center">{{ annonce['phrase_annonces'] }}</p>
                 </article>

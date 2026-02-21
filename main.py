@@ -25,27 +25,30 @@ def index():
     print("Articles récupérés :", annonce_data)
     for annonce in annonce_data:
         annonce["_id"] = str(annonce["_id"])
-        annonce["lat"] = float(annonce.get("lat", 0)) if annonce.get("lat") else None
-        annonce["lng"] = float(annonce.get("lng", 0)) if annonce.get("lng") else None
-        for a in annonce_data:
-            a["_id"] = str(a["_id"])
+                # Conversion sécurisée en float si la clé existe
+        for key in ["lat", "lng"]:
+            if key in annonce and annonce[key] is not None:
+                try:
+                    annonce[key] = float(annonce[key])
+                except ValueError:
+                    annonce[key] = None
     return render_template("index.html", annonce=annonce_data)
 
 @app.route("/search", methods = ['GET'])
 def search():
-    print(db["annonce"].find_one())
+    print(db["annonces"].find_one())
     query = request.args.get('q', '').strip()
 
     if query == '':
-        result = list(db["annonce"].find({}))
+        result = list(db["annonces"].find({}))
     else :
-        results =   list(db["annonce"].find({
+        result =   list(db["annonces"].find({
             "$or" : [
                 {"titre_annonces" : {"$regex" : query, "$options" : "i"} },
                 {"phrase_annonces" : {"$regex" : query, "$options" : "i"} }
             ]
         }))
-    return render_template("search_result.html", annonces=results, query=query)
+    return render_template("search_result.html", annonces=result, query=query)
 
 @app.route("/index/<id_post>")
 def lieu(id_post):
