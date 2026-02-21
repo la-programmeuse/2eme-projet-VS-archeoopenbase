@@ -29,22 +29,24 @@
         async defer></script>
 
 <body>
-    <header class="bg-color1 flex justify-around p-10 py-12">
-        <div class="grid grid-cols-1 flex justify-around">
-            <img src="../static/IMG_4020.PNG" class="w-100"> 
-            <form action = "/search" method = "get" class = "flex justify-center">
+    <header class="bg-color1 flex items-center justify-around p-10 py-12 display ">
+        <div class="grid grid-cols-1 flex justify-around ">
+            <div class="max-w-4xl mx-auto h-64 overflow-hidden">
+                <img src="../static/IMG_4020.PNG" class="w-full h-full object-cover"> 
+            </div>
+                <form action = "/search" method = "get" class = "flex justify-center">
                 <input type = "text" name = "q" placeholder = "recherche" class="">
                 <button type = "submit" class = "">🔍</button>
             </form>
         </div>
-        <nav class="flex space-x-10 text-2xl font-serif text-orange-950">
+        <nav class="flex space-x-10 text-2xl font-serif text-orange-950 vertical-align: middle">
             <ul>
                 <li><a href="/">Accueil</a></li>
             <ul>
-                <li><a href="/connect" class="active">login</a></li>
-                <li><a href="/register" class="active">register</a></li>
+                <li><a href="/connect" class="active">se connecter</a></li>
+                <li><a href="/register" class="active">crée un compte</a></li>
             </ul>
-                <li><a href="/publish" class="active">publish</a></li>
+                <li><a href="/publish" class="active">publier</a></li>
             </ul>
         </nav>
     </header>

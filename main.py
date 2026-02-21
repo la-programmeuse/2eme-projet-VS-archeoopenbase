@@ -33,6 +33,7 @@ def index():
 
 @app.route("/search", methods = ['GET'])
 def search():
+    print(db["annonce"].find_one())
     query = request.args.get('q', '').strip()
 
     if query == '':
@@ -44,6 +45,7 @@ def search():
                 {"phrase_annonces" : {"$regex" : query, "$options" : "i"} }
             ]
         }))
+    return render_template("search_result.html", annonces=results, query=query)
 
 @app.route("/index/<id_post>")
 def lieu(id_post):
