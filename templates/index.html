@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
     
         <div class="bg-color1 text-center rounded-lg shadow-md text-orange-950 font-serif font-semibold">
             <br>
@@ -9,17 +10,19 @@
             <br>
         </div>
         <br>
-        <section class="grid grid-cols-4 grid-rows-3 flex gap-4">
+        <section class="grid grid-cols-4 flex gap-4">
             {% for item in annonce %}
                 <article class="bg-stone-50 text-center rounded-lg border border-orange-200 shadow-md">
                     <h2 class="text-lg text-center pb-1">Annonce</h2>
                     <p>{{ item["titre_annonces"] }}</p>
                     <p>{{ item["phrase_annonces"] }}</p>
+                    <p>N°inventaire : {{ item["n_inventaire"] }}</p>
                     {% if item.image %}
-                        <img src="{{ url_for('static', filename='uploads/' + item.image) }}" width="200">
+                        <img src="{{ url_for('static', filename='uploads/' + item.image) }}" width="400" height="300" >
                     {% endif %}
+                    <br>
+
                     <!-- Carte Google Maps -->
-                    <p>{{ annonce.lat }} - {{ annonce.lng }}</p>
                     {% if item.lat and item.lng %}
                         <p>Coordonnées : {{ item.lat }} - {{ item.lng }}</p>
                     {% endif %}

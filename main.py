@@ -6,11 +6,16 @@ import os
 from dotenv import load_dotenv
 import bcrypt 
 from bson.objectid import ObjectId
+import re
+
 
 load_dotenv()
 app = Flask(__name__)
 
 app.config['UPLOAD_FOLDER'] = os.path.join(os.path.dirname(__file__), 'uploads') 
+UPLOAD_FOLDER = "static/videos"
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
 
 client = MongoClient("mongodb+srv://laprogrammeuse_db_user:2jWIe266TsEycWi6@cluster0.2g3fh0q.mongodb.net/?appName=Cluster0")  # ton URI
@@ -96,35 +101,37 @@ def publish():
         return render_template('register.html')
 
     app.config['UPLOAD_FOLDER'] = "static/uploads"
+    os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+
 
     if request.method == "POST":
         print("request.files keys:", request.files.keys())
         db_annonces = db['annonces']
         titre = request.form["titre_annonces"]
         description = request.form["phrase_annonces"]
+        N_inventaire = request.form["n_inventaire"]
         Latitude = request.form["lat"]
         Longitude = request.form["lng"]
         image = request.files.get("image")
+        video = request.files.get('video')
 
+        filename = None
+        video_filename = None
 
-        filename = ""  # valeur par défaut si pas d'image
         if image and image.filename != "":
-            from werkzeug.utils import secure_filename
-            import os
-            filename = secure_filename(image.filename)
-            BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-            UPLOAD_FOLDER = os.path.join(BASE_DIR, "static/uploads")
-            os.makedirs(UPLOAD_FOLDER, exist_ok=True)
-            upload_path = os.path.join(UPLOAD_FOLDER, filename)
-            image.save(upload_path)
-            image.save(os.path.join(UPLOAD_FOLDER, filename))
-            print("Fichier enregistré :", filename)
-            print("Dossier uploads contient :", os.listdir(app.config['UPLOAD_FOLDER']))
-            print("Image sauvegardée ici :", upload_path)
-            print("CWD :", os.getcwd())
-            print("Liste uploads :", os.listdir("static/uploads"))
+            filename = image.filename
+            image.save("static/uploads/" + filename)
 
-        filename = filename.strip()
+        else : 
+            filename = None
+            print("Nom fichier :", image.filename if image else "AUCUN")
+
+        if video and video.filename != "":
+            video_filename = secure_filename(video.filename)
+            video.save(os.path.join(app.config['UPLOAD_FOLDER'], video_filename))
+
+        uploads_folder = os.path.join(os.path.dirname(__file__), "static", "uploads")
+        os.makedirs(uploads_folder, exist_ok=True)
 
         if titre and description:
             db_annonces.insert_one({
@@ -132,7 +139,9 @@ def publish():
                 'phrase_annonces' : description,
                 'lat' : Latitude,
                 'lng' : Longitude,
-                'image': filename
+                'image': filename,
+                'video': video_filename,
+                'n_inventaire' : N_inventaire
             })
             return redirect("/")
         else: 
