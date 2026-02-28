@@ -168,6 +168,6 @@ def show_post(id):
     item = collection.find_one({"_id": ObjectId(id)})
     return render_template("post.html", item=item)
 
-
+if __name__=="__main__"
 app.run(host ='0.0.0.0', port=81)
     
