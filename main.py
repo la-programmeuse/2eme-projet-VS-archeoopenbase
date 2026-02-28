@@ -12,6 +12,8 @@ import re
 load_dotenv()
 app = Flask(__name__)
 
+
+
 app.config['UPLOAD_FOLDER'] = os.path.join(os.path.dirname(__file__), 'uploads') 
 UPLOAD_FOLDER = "static/videos"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
@@ -23,6 +25,8 @@ db = client["projet_2_VS_code"]
 
 
 app.secret_key = "2jWIe266TsEycWi6"
+
+collection = db["annonces"] 
 
 @app.route('/')
 def index():
@@ -41,6 +45,7 @@ def index():
 
 @app.route("/search", methods = ['GET'])
 def search():
+    
     print(db["annonces"].find_one())
     query = request.args.get('q', '').strip()
 
@@ -156,6 +161,12 @@ def uploaded_file(filename):
 def test():
     test_data = list(db["test"].find({}))
     return render_template('test.html', test = test_data )
+
+
+@app.route("/post/<id>")
+def show_post(id):
+    item = collection.find_one({"_id": ObjectId(id)})
+    return render_template("post.html", item=item)
 
 
 app.run(host ='0.0.0.0', port=81)

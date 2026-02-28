@@ -2,13 +2,22 @@
 
 {% block content %}
 
+
 <article class="bg-stone-50 text-center rounded-lg border border-orange-200 shadow-md">
-    <h2 class="text-lg text-center pb-1" >Annonce</h2>
-    <p> {{post["titre_annonces"]}}</p>
-    <p>{{post["phrase_annonces"]}}</p>
-    
-    
+    <p>{{ item["titre_annonces"] }}</p>
+    <p>{{ item["phrase_annonces"] }}</p>
+    <p>N°inventaire : {{ item["n_inventaire"] }}</p>
+    {% if item.image %}
+        <img src="{{ url_for('static', filename='uploads/' + item.image) }}" width="400" height="300" class="mx-auto my-4">
+    {% endif %}
+    <br>
+
+    <!-- Carte Google Maps -->
+    {% if item.lat and item.lng %}
+        <p>Coordonnées : {{ item.lat }} - {{ item.lng }}</p>
+    {% endif %}
 </article>
+
 
 <br>
 

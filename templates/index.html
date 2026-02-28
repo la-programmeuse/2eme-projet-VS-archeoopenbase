@@ -6,19 +6,19 @@
         <div class="bg-color1 text-center rounded-lg shadow-md text-orange-950 font-serif font-semibold">
             <br>
             <br>
-            <img src="../static/IMG_4026.jpeg">
+            <img src="../static/IMG_4026.jpeg" class="mx-auto my-6 w-full max-w-6xl h-auto object-contain">
             <br>
         </div>
         <br>
-        <section class="grid grid-cols-4 flex gap-4">
+        <section class="grid grid-cols-4 flex flex justify-around gap-4">
             {% for item in annonce %}
                 <article class="bg-stone-50 text-center rounded-lg border border-orange-200 shadow-md">
                     <h2 class="text-lg text-center pb-1">Annonce</h2>
                     <p>{{ item["titre_annonces"] }}</p>
-                    <p>{{ item["phrase_annonces"] }}</p>
+                    <p class="line-clamp-2">{{ item["phrase_annonces"] }}</p>
                     <p>N°inventaire : {{ item["n_inventaire"] }}</p>
                     {% if item.image %}
-                        <img src="{{ url_for('static', filename='uploads/' + item.image) }}" width="400" height="300" >
+                        <img src="{{ url_for('static', filename='uploads/' + item.image) }}" width="400" height="300" class="mx-auto my-4" >
                     {% endif %}
                     <br>
 
@@ -26,11 +26,12 @@
                     {% if item.lat and item.lng %}
                         <p>Coordonnées : {{ item.lat }} - {{ item.lng }}</p>
                     {% endif %}
-                    <a class="text-stone-500" href="/index/{{ item['_id'] }}">afficher plus</a>
+                    <a class="text-stone-500" href="{{ url_for('show_post', id=item['_id']) }}">afficher plus</a>
                 </article>
             {% endfor %}
             <div id="map" class="w-full h-96 my-6 rounded-lg shadow-md" style="width: 100%; height: 500px; margin-top: 20px;"></div>
         </section>
+        <br>
         
     </main>
  
