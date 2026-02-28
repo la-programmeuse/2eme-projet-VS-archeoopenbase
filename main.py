@@ -168,7 +168,5 @@ def show_post(id):
     item = collection.find_one({"_id": ObjectId(id)})
     return render_template("post.html", item=item)
 
-if __name__=="__main__"
-    port = int(os.environ.get("PORT", 5000))  # Render définit automatiquement PORT
-    app.run(host="0.0.0.0", port=port)
+
     
