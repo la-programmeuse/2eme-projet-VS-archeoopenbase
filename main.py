@@ -167,6 +167,3 @@ def test():
 def show_post(id):
     item = collection.find_one({"_id": ObjectId(id)})
     return render_template("post.html", item=item)
-
-
-    
